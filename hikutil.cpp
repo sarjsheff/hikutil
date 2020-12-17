@@ -143,16 +143,22 @@ int ListVideo(long lUserID, char *downloadPath) {
           struFileData.struStopTime.bySecond);
       if (strlen(downloadPath) > 0) {
         char todir[1000] = "";
+        char checktodir[1000] = "";
         sprintf(todir, "%s/%d-%02d-%02d", downloadPath,
                 struFileData.struStartTime.wYear,
                 struFileData.struStartTime.byMonth,
                 struFileData.struStartTime.byDay);
         mkdir(todir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-        sprintf(todir, "%s/%02d:%02d:%02d.mp4", todir,
+        sprintf(checktodir, "%s/%02d:%02d:%02d.mp4", todir,
                 struFileData.struStartTime.byHour,
                 struFileData.struStartTime.byMinute,
                 struFileData.struStartTime.bySecond);
-        if (access(todir, F_OK) == -1) {
+        sprintf(todir, "%s/%02d:%02d:%02d.mpeg", todir,
+                struFileData.struStartTime.byHour,
+                struFileData.struStartTime.byMinute,
+                struFileData.struStartTime.bySecond);
+
+        if (access(checktodir, F_OK) == -1) {
           saveFile(lUserID, struFileData.sFileName, todir);
         }
       }
